@@ -1,38 +1,54 @@
-# sv
+## app structure 
+src/
+├── domain/                     # Modelos y tipos del dominio
+│   └── Sensor.ts               # Definición del tipo Sensor
+│
+├── application/                # Lógica de la aplicación (servicios, casos de uso)
+│   ├── sensorService.ts        # Funciones CRUD y lógica de sensores
+│   └── authService.ts          # Funciones de login/logout
+│
+├── infrastructure/             # Acceso al backend, almacenamiento, NATS
+│   ├── mockBackend.ts          # Backend simulado (simula DB)
+│   ├── natsClient.ts           # Conexión a NATS
+│   └── storage.ts              # Helpers para localStorage/sessionStorage
+│
+├── lib/                        # Componentes reutilizables y utilidades
+│   ├── components/
+│   │   ├── SensorTable.svelte
+│   │   ├── SensorForm.svelte
+│   │   └── LoginForm.svelte
+│   └── utils/
+│       └── validators.ts
+│
+├── routes/                     # Páginas y layout de SvelteKit
+│   ├── +layout.svelte          # Layout global (header, footer, slot)
+│   ├── login/
+│   │   ├── +page.svelte        # Página de login
+│   │   └── +page.ts            # Función load (opcional)
+│   └── dashboard/
+│       ├── +page.svelte        # Página del dashboard
+│       └── +page.ts            # Función load, autenticación, fetch de sensores
+│
+└── stores/                     # Stores de Svelte (patrón Flux)
+    ├── sensorsStore.ts         # Estado de los sensores y funciones reactivas
+    └── authStore.ts            # Estado de autenticación del usuario
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## npm packages
 
-## Creating a project
+- nats.ws  // socket
+- uuid      // Universally Unique Identifier
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Data (Clean + Flux)
 
-```sh
-# create a new project in the current directory
-npx sv create
+User interaction (UI components)
+       ↓
+       Actions / Event handlers
+       ↓
+    Store (sensorsStore / authStore)
+       ↓
+  Application layer (sensorService / authService)
+       ↓
+ Infrastructure layer (mockBackend / NATS)
+       ↓
+       Back to Store → UI updates
 
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
