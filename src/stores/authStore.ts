@@ -1,64 +1,72 @@
 // src/stores/authStore.ts
+
+/**
+ * Este store gestiona el estado de autenticación del usuario en el lado del cliente.
+ * Los datos se guardan SOLO en localStorage.
+ * 
+ * Nota: los datos que llegan a este punto ya han sido "sanitizados".
+ * infrastructure/mockData actúa como una base de datos simulada y verifica si el usuario existe.
+ */
+
 import { writable } from 'svelte/store';
-import {browser} from '$app/environment';
+import { browser } from '$app/environment';
 
+// Usuario inicial si ya está logueado en localStorage
+let initialUser: App.User | null = null;
 
-// localStorage if user is already logged in 
-let initialUser:App.User | null = null;
-
-// initial state
-if (browser)
-{
+if (browser) {
   const storedUser = localStorage.getItem('user');
   initialUser = storedUser ? JSON.parse(storedUser) as App.User : null;
 }
 
+// Store reactivo de Svelte para la autenticación
 export const authStore = writable<{ user: App.User | null }>({ user: initialUser });
 
-//  login
+/**
+ * Realiza el login del usuario
+ * @param username - nombre de usuario ingresado
+ * Crea un token ficticio y guarda el usuario en localStorage y en el store
+ */
 export function login(username: string) {
-  const user : App.User = {
-      username,
-      token: `token-${Date.now()}`
-  }
-  if (browser)
-    localStorage.setItem('user', JSON.stringify(user))
+  const user: App.User = {
+    username,
+    token: `token-${Date.now()}`
+  };
 
-  authStore.set({user});
+  if (browser) localStorage.setItem('user', JSON.stringify(user));
+
+  authStore.set({ user });
 }
 
-// logout
+/**
+ * Realiza el logout del usuario
+ * Elimina los datos de localStorage y reinicia el store
+ */
 export function logout() {
-  if (browser)
-    localStorage.removeItem('user');
+  if (browser) localStorage.removeItem('user');
   authStore.set({ user: null });
 }
 
-// authentication check
+/**
+ * Verifica si el usuario está autenticado
+ * returns true si existe un usuario válido en localStorage
+ */
 export function isAuthenticated(): boolean {
-
-  //local storage undefined
-  if (!browser) return false;  
+  if (!browser) return false;
 
   const storedUser = localStorage.getItem('user');
   if (!storedUser) return false;
 
- try {
-  const user = JSON.parse(storedUser) as App.User;
-  
-  // if there is not user 
-  if (!user) return false;
+  try {
+    const user = JSON.parse(storedUser) as App.User;
 
-  // if the username is not a string 
-  if (typeof user.username !== 'string') return false;
+    if (!user) return false;
+    if (typeof user.username !== 'string') return false;
+    if (!user.token) return false;
 
-  // if there is not token  
-  if (!user.token) return false;
-
-  return true;
-} catch(err) {
-  // Failed  
-  console.log("error in authentication check from $stores/authStore.ts",err)
-  return false;
-}
+    return true;
+  } catch (err) {
+    console.log("Error en la verificación de autenticación desde $stores/authStore.ts", err);
+    return false;
+  }
 }
