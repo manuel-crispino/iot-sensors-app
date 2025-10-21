@@ -1,6 +1,12 @@
+## Iot Senors App 
+
+<a href='#quick-start'> quick start</a>
+<a href='#app-structure'> start</a>
+
+
 ## Quick start 
 
-copy and paste this script on your terminal machine.
+Copia y pega este script en tu terminal.
 
 ```bash
 git clone git@github.com:manuel-crispino/iot-sensors-app.git
@@ -10,7 +16,6 @@ npx vite --open
 
 ```
 
-<section id="#struct">
 
 ## app structure 
 ```bash
@@ -24,7 +29,7 @@ src/
 │   └── authService.ts          # Funciones de login/logout
 │
 ├── infrastructure/             # Acceso a backend, almacenamiento, NATS
-│   ├── mockDatabase.ts          # Backend simulado (simula DB)
+│   ├── mockDatabase.ts         # Backend simulado (simula DB)
 │   ├── natsClient.ts           # Conexión a NATS
 │   └── storage.ts              # Helpers para localStorage/sessionStorage
 │
@@ -88,5 +93,3 @@ User interaction (UI components)
  Infrastructure layer (mockBackend / NATS)
        ↓
        Back to Store → UI updates
-
-</section>
