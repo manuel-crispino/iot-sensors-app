@@ -24,7 +24,7 @@ src/
 │   └── authService.ts          # Funciones de login/logout
 │
 ├── infrastructure/             # Acceso a backend, almacenamiento, NATS
-│   ├── mockBackend.ts          # Backend simulado (simula DB)
+│   ├── mockDatabase.ts          # Backend simulado (simula DB)
 │   ├── natsClient.ts           # Conexión a NATS
 │   └── storage.ts              # Helpers para localStorage/sessionStorage
 │
