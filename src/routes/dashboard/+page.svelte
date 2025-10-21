@@ -2,6 +2,7 @@
 import { authStore, logout } from '$stores/authStore';
 import { onMount } from 'svelte';
 import { goto } from '$app/navigation';
+import Button from '$lib/components/common/Button.svelte';
 
 onMount(() => {
   authStore.subscribe((state) => {
@@ -15,8 +16,11 @@ function handleLogout() {
 }
 </script>
 
+<div class="flex flex-col items-center ">
 <h1 class="dark:text-white">Dashboard</h1>
-<button class="dark:text-black dark:bg-white p-2 " 
-onclick={handleLogout}>
-Logout
-</button>
+
+<Button
+onClick={handleLogout}
+text="Logout"/>
+</div>
+

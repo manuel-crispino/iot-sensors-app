@@ -82,6 +82,7 @@ src/
 
 - nats.ws   // socket
 - uuid      // Universally Unique Identifier
+- lucide-svelte // icons
 
 ## Data (Clean + Flux)
 
