@@ -1,8 +1,11 @@
 ## Iot Senors App 
 
-<a href='#quick-start'> quick start</a>
+<a href='#quick-start'>Quick start</a>
 <br/>
-<a href='#app-structure'> start</a>
+<a href='#app-structure'>App structure</a>
+<br/>
+<a href='#npm-packages'>Npm packages</a>
+<br/>
 
 
 ## Quick start 
@@ -75,11 +78,10 @@ src/
     └── authStore.ts            # Estado de autenticación del usuario
 
 ```
-## npm packages & Technologies 
+## npm packages 
 
 - nats.ws   // socket
 - uuid      // Universally Unique Identifier
-- TailwindCss // Css Library
 
 ## Data (Clean + Flux)
 
