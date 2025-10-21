@@ -1,6 +1,6 @@
 ## Quick start 
 
-open your machine terminal and run the following script 
+copy and paste this script on your terminal machine.
 
 ```bash
 git clone git@github.com:manuel-crispino/iot-sensors-app.git
