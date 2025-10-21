@@ -1,4 +1,5 @@
 ## app structure 
+```bash
 src/
 ├── domain/                     # Modelos y tipos del dominio
 │   └── Sensor.ts               # Definición del tipo Sensor
@@ -32,6 +33,7 @@ src/
 └── stores/                     # Stores de Svelte (patrón Flux)
     ├── sensorsStore.ts         # Estado de los sensores y funciones reactivas
     └── authStore.ts            # Estado de autenticación del usuario
+```
 
 ## npm packages
 
