@@ -1,14 +1,21 @@
 ## Iot Senors App 
 
-<a href='#quick-start'>Quick start</a>
+
+Aplicación demo para la gestión y visualización de sensores IoT. 
+
+## Índice
+
+<a href='#inicio-rápido'>Inicio rápido</a>
 <br/>
-<a href='#app-structure'>App structure</a>
+<a href='#estructura-del-proyecto'>Estructura del proyecto</a>
 <br/>
-<a href='#npm-packages'>Npm packages</a>
+<a href='#npm-packages'>Paquetes NPM utilizados</a>
+<br/>
+<a href='#credenciales-de-prueba'>credenciales</a>
 <br/>
 
 
-## Quick start 
+## Inicio rápido
 
 Copia y pega este script en tu terminal.
 
@@ -20,8 +27,14 @@ npx vite --open
 
 ```
 
+## Credenciales de prueba
 
-## app structure 
+Puedes iniciar sesión con las siguientes credenciales:
+username: admin
+password: password
+
+
+## Estructura del proyecto
 ```bash
 src/
 ├── domain/                     # Modelos y tipos del dominio
@@ -39,30 +52,28 @@ src/
 │
 ├── lib/
 │   └── components/             # Componentes reutilizables
-│       ├── common/             # Componentes genéricos reutilizables
-│       │   ├── Button.svelte
-│       │   ├── Input.svelte
-│       │   ├── Heading.svelte
-│       │   └── Modal.svelte
-│       │
-│       ├── layout/             # Componentes relacionados con el layout global
-│       │   ├── Navbar.svelte
-│       │   ├── Footer.svelte
-│       │   └── Sidebar.svelte
-│       │
 │       ├── auth/               # Componentes específicos de autenticación
 │       │   ├── LoginForm.svelte
-│       │   └── RegisterForm.svelte
+│       │
+│       ├── common/             # Componentes genéricos reutilizables
+│       │   ├── Button.svelte
+│       │   ├── Form.svelte
+│       │   ├── Card.svelte
+│       │   ├── Input.svelte
+│       │   └── Modal.svelte
 │       │
 │       ├── dashboard/          # Componentes específicos del dashboard
 │       │   ├── SensorTable.svelte
 │       │   ├── SensorForm.svelte
 │       │   └── SensorCard.svelte
 │       │
+│       │
 │       └── feedback/           # Componentes para UI dinámica o retroalimentación
-│           ├── LoadingSpinner.svelte
-│           ├── Toast.svelte
-│           └── Alert.svelte
+│       │   ├── Loading.svelte
+│       │   ├── Overlay.svelte
+│       │
+│       ├── layout/             # Componentes relacionados con el layout global
+│       │   ├── Container.svelte
 │
 ├── routes/                     # Páginas y layout de SvelteKit
 │   ├── +layout.svelte          # Layout global (header, footer, slot)
@@ -84,16 +95,25 @@ src/
 - uuid      // Universally Unique Identifier
 - lucide-svelte // icons
 
-## Data (Clean + Flux)
+## Data Flow (Clean + Flux)
 
-User interaction (UI components)
-       ↓
-       Actions / Event handlers
-       ↓
-    Store (sensorsStore / authStore)
-       ↓
-  Application layer (sensorService / authService)
-       ↓
- Infrastructure layer (mockBackend / NATS)
-       ↓
-       Back to Store → UI updates
+La aplicación sigue un flujo **unidireccional de datos**, inspirado en la arquitectura **Clean Architecture** combinada con el patrón **Flux**.  
+Esto garantiza una separación clara entre capas y facilita la escalabilidad.
+
+🧩 Componentes Svelte (acciones / eventos)
+↓
+⚙️ Stores (sensorsStore / authStore)
+↓
+🧠 Capa de aplicación (sensorService / authService)
+↓
+🗄️ Capa de infraestructura (mockBackend / NATS)
+↓
+🔁 Retorno al Store → Actualización reactiva de la UI
+
+### Explicación por capas
+
+- **UI Components** → Capturan la interacción del usuario (formularios, botones, etc.)  
+- **Stores (Flux)** → Mantienen el estado global y notifican cambios a la UI  
+- **Application Layer** → Contiene la lógica de negocio (casos de uso, validaciones, etc.)  
+- **Infrastructure Layer** → Se comunica con el backend o servicios externos (mock DB, NATS, etc.)  
+- **UI Update** → Cuando el store cambia, la UI se actualiza automáticamente gracias a la reactividad de Svelte  
