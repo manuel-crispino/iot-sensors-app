@@ -41,7 +41,7 @@ src/
 │   └── components/             # Componentes reutilizables
 │       ├── common/             # Componentes genéricos reutilizables
 │       │   ├── Button.svelte
-│       │   ├── InputField.svelte
+│       │   ├── Input.svelte
 │       │   ├── Heading.svelte
 │       │   └── Modal.svelte
 │       │
