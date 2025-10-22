@@ -51,7 +51,7 @@ export const sortAsc = writable(true);
 export const filteredSensors = derived(
   [sensors, filter, sortKey, sortAsc],
   ([$sensors, $filter, $sortKey, $sortAsc]) => {
-    let filtered = $sensors.filter((s) =>
+    const filtered = $sensors.filter((s) =>
       s.name.toLowerCase().includes($filter.toLowerCase()) ||
       s.type.toLowerCase().includes($filter.toLowerCase())
     );
