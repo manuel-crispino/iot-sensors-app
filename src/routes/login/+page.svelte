@@ -4,6 +4,7 @@
   import { findUser } from '$infrastructure/mockDatabase';
 	import Button from '$lib/components/common/Button.svelte';
 	import Input from '$lib/components/common/Input.svelte';
+	import Overlay from '$lib/components/common/Overlay.svelte';
 
   let username: string = '';
   let password: string = '';
@@ -52,16 +53,15 @@
 <div class="flex flex-col items-center gap-5">
   <!-- 🔄 Overlay loading -->
   {#if isLoading}
-    <div class="absolute inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm">
-      <!-- Contenitore centrale -->
-      <div class="flex flex-col items-center justify-center bg-gray-900 text-white p-6 rounded-2xl shadow-lg">
-      <!-- Spinner -->
-      <div class="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-
-      <!-- Text -->
-      <p class="mt-3 text-sm opacity-90">Verificando credenciales...</p>
-      </div>
-    </div>
+      <Overlay>
+        <!-- Contenitore central -->
+        <div class="flex flex-col items-center justify-center bg-gray-900 text-white p-6 rounded-2xl shadow-lg">
+          <!-- Spinner -->
+          <div class="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+          <!-- Text -->
+          <p class="mt-3 text-sm opacity-90">Verificando credenciales...</p>
+        </div>
+      </Overlay>
   {/if}
 
   {#if !isLoading}
@@ -90,12 +90,12 @@
   {/if}
 
   {#if showModal}
-    <div class="fixed inset-0 flex items-center justify-center bg-black/50">
+    <Overlay>
       <div class="bg-gray-800 text-white p-6 rounded-xl shadow-lg text-center">
         <p>Has alcanzado el límite de intentos.</p>
         <p class="mt-2 text-sm opacity-80">Espera 5 segundos para intentarlo nuevamente.</p>
       </div>
-    </div>
+    </Overlay>
   {/if}
   
 </div>
