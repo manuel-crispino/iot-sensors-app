@@ -2,11 +2,11 @@
   import type { AutoCompleteType } from '$domain/form';
   import { Eye, EyeOff } from 'lucide-svelte';
 
-  export let value: string = '';
-  export let placeholder: string = '';
-  export let type: 'text' | 'password' | 'email' | 'number' = 'text';
+  export let value: string;
+  export let placeholder: string;
+  export let type: 'text' | 'password' | 'email' | 'number';
   export let autocomplete: AutoCompleteType = 'off';
-  export let required: boolean = false; 
+  export let required: boolean = false;
 
   let showPassword = false;
 </script>
