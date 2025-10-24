@@ -101,14 +101,23 @@ La aplicación sigue un flujo **unidireccional de datos**, inspirado en la arqui
 Esto garantiza una separación clara entre capas y facilita la escalabilidad.
 
 🧩 Componentes Svelte (acciones / eventos)
+<br/>
 ↓
+<br/>
 ⚙️ Stores (sensorsStore / authStore)
+<br/>
 ↓
+<br/>
 🧠 Capa de aplicación (sensorService / authService)
+<br/>
 ↓
+<br/>
 🗄️ Capa de infraestructura (mockBackend / NATS)
+<br/>
 ↓
+<br/>
 🔁 Retorno al Store → Actualización reactiva de la UI
+<br/>
 
 ### Explicación por capas
 
