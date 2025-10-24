@@ -1,11 +1,11 @@
 // src/stores/authStore.ts
 
-/**
- * Este store gestiona el estado de autenticación del usuario en el lado del cliente.
- * Los datos se guardan SOLO en localStorage.
- * 
- * Nota: los datos que llegan a este punto ya han sido "sanitizados".
- * infrastructure/mockData actúa como una base de datos simulada y verifica si el usuario existe.
+/*
+ Este store gestiona el estado de autenticación del usuario en el lado del cliente.
+ Los datos se guardan SOLO en localStorage.
+ 
+ Nota: los datos que llegan a este punto ya han sido "sanitizados".
+ infrastructure/mockData actúa como una base de datos simulada y verifica si el usuario existe.
  */
 
 import { writable } from 'svelte/store';
