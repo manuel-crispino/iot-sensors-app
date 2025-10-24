@@ -1,6 +1,7 @@
 import type { Sensor } from "$domain/sensor";
 
 export async function getSensores(): Promise<Sensor[]> {
+    
   const res = await fetch(`${import.meta.env.VITE_API_URL}/sensores`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

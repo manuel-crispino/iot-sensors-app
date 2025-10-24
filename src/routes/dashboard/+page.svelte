@@ -21,17 +21,35 @@
 	import TablaSensores from '$lib/components/dashboard/TablaSensores.svelte';
 
   let loaded:boolean = false;
+  let error: string | null = null;
 
   onMount(async()=> {
     authStore.subscribe((state) => {
       if (!state.user) goto('/login');
     });
-     const data = await getSensores();
-      if (data)
-      {       
-          sensores.set(data);
-          loaded = true;
+   
+    // Timeout di 15 secondi
+    const timeout = setTimeout(() => {
+      if (!loaded) {
+        error = 'El servidor no responde. Inténtalo más tarde.';
+        loaded = true; // fermiamo il loading
       }
+    }, 15000);
+
+    try {
+      const data = await getSensores();
+      if (data) {
+        sensores.set(data);
+        loaded = true;
+        error = null;
+        clearTimeout(timeout); // cancella il timeout se fetch finisce
+      }
+    } catch (err) {
+      console.error(err);
+      error = 'Error al obtener los sensores.';
+      loaded = true;
+      clearTimeout(timeout);
+    }
   });
 
   // 🔁 Genera una lista di tipos unici (senza duplicati)
@@ -45,7 +63,9 @@
 <Container>
   {#if !loaded}
   <Loading message="Fetching data"/>
-  {/if}
+  {:else if error}
+  <div class="text-red-500 font-semibold">{error}</div>
+{/if}
 <div class="flex flex-col items-center gap-6">
   <h1 class="text-2xl font-semibold dark:text-white">Panel de Sensores</h1>
 
