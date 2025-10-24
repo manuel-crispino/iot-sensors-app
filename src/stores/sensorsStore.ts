@@ -35,7 +35,20 @@ export const sensoresIniciales: Sensor[] = [
   { id: 17, nombre: 'Ritmo Cardíaco', tipo: 'biométrico', valor: 78, estado: true },
   { id: 18, nombre: 'Temperatura Corporal', tipo: 'biométrico', valor: 36.7, estado: true },
   { id: 19, nombre: 'Vibración', tipo: 'acelerómetro', valor: 0.03, estado: true },
-  { id: 20, nombre: 'Posición GPS', tipo: 'ubicación', valor: 1, estado: true },
+  { id: 20, nombre: 'Posición GPS-1', tipo: 'ubicación', valor: 1, estado: true },
+  { id: 21, nombre: 'Posición GPS-2', tipo: 'ubicación', valor: 1, estado: true },
+  { id: 22, nombre: 'Posición GPS-3', tipo: 'ubicación', valor: 1, estado: true },
+  { id: 23, nombre: 'Posición GPS-4', tipo: 'ubicación', valor: 1, estado: true },
+  { id: 24, nombre: 'Posición GPS-6', tipo: 'ubicación', valor: 1, estado: true },
+  { id: 25, nombre: 'Posición GPS-7', tipo: 'ubicación', valor: 1, estado: true },
+  { id: 26, nombre: 'Posición GPS-8', tipo: 'ubicación', valor: 1, estado: true },
+  { id: 27, nombre: 'Posición GPS-9', tipo: 'ubicación', valor: 1, estado: true },
+  { id: 28, nombre: 'Posición GPS-10', tipo: 'ubicación', valor: 1, estado: true },
+  { id: 29, nombre: 'Posición GPS-11', tipo: 'ubicación', valor: 1, estado: true },
+  { id: 30, nombre: 'Posición GPS-12', tipo: 'ubicación', valor: 1, estado: true },
+  { id: 31, nombre: 'Posición GPS-13', tipo: 'ubicación', valor: 1, estado: true },
+  { id: 32, nombre: 'Posición GPS-14', tipo: 'ubicación', valor: 1, estado: true },
+  { id: 33, nombre: 'Posición GPS-15', tipo: 'ubicación', valor: 1, estado: true },
 ];
 
 /**
@@ -57,12 +70,16 @@ export const criterioOrden = writable<'id' | 'nombre' | 'tipo' | 'valor' | 'esta
 export const ordenAscendente = writable(true);
 export const filtroTipo = writable('');   // tipo di sensor seleccionado
 export const filtroEstado = writable(''); // estado (activo/inactivo)
+export const filtroNombre = writable(''); // Nombre
+export const filtroId = writable(''); // id
+export const filtroValor = writable(''); // value
+
 /**
  * 🧩 Store derivado: filtra y ordena los sensores automáticamente
  */
 export const sensoresFiltrados = derived(
-  [sensores, filtro, filtroTipo, filtroEstado, criterioOrden, ordenAscendente],
-  ([$sensores, $filtro, $filtroTipo, $filtroEstado, $criterioOrden, $ordenAscendente]) => {
+  [sensores, filtro,filtroNombre, filtroTipo, filtroEstado,filtroId,filtroValor ,criterioOrden, ordenAscendente],
+  ([$sensores, $filtro,$filtroNombre, $filtroTipo, $filtroEstado,$filtroId,$filtroValor, $criterioOrden, $ordenAscendente]) => {
     const textoFiltro = $filtro.trim().toLowerCase();
 
     let listaFiltrada = $sensores;
@@ -85,6 +102,29 @@ export const sensoresFiltrados = derived(
     if ($filtroTipo) {
       listaFiltrada = listaFiltrada.filter((s) => s.tipo === $filtroTipo);
     }
+
+     // 🧩 Filtro por Nombre
+    if ($filtroNombre) {
+      listaFiltrada = listaFiltrada.filter((s) => s.nombre === $filtroNombre);
+    }
+
+
+     // 🧩 Filtro por Valor
+    if ($filtroValor) {
+      const valorNumero = Number($filtroValor);
+      listaFiltrada = listaFiltrada.filter(sensor =>
+        sensor.valor === valorNumero
+      );
+    }
+     // 🧩 Filtro por Valor
+    if ($filtroId) {
+      const idNumero = Number($filtroId);
+      listaFiltrada = listaFiltrada.filter(sensor =>
+        sensor.id === idNumero
+      );
+    }
+
+
 
     // ⚙️ Filtro por estado
     if ($filtroEstado) {

@@ -24,7 +24,7 @@ function toggleTheme() {
 }
 </script>
 
-<nav class="fixed w-full bg-gray-200/20 pt-2 px-10 flex items-center justify-between dark:bg-gray-800/20 dark:text-white">
+<nav class="fixed w-full z-0 bg-gray-200/20 py-2 px-10 flex items-center justify-between dark:bg-gray-800/20 dark:text-white">
     <h1 class="text-xl font-semibold">IOT SENSORS APP</h1>
     <Button onClick={toggleTheme} text={ isDark ? '🌞 Light Mode' : '🌙 Dark Mode' }/>
 
