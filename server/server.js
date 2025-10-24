@@ -52,9 +52,10 @@ app.get("/", (req, res) => {
     res.send(initialMessage);
 });
 
+//  api route
 app.post("/sensores", (req, res) => {
     const apiToken = req.body.token;
-    console.log("token  == ", apiToken);
+
     if (tokens.some(t => t.token === apiToken)) {
         return res.send(JSON.stringify(sensorData));
     }
