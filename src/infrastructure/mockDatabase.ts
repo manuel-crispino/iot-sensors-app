@@ -7,12 +7,6 @@ export const mockUsers: User[] = [
     password: 'password',
     role: 'admin'
   },
-  {
-    id: 2,
-    username: 'user',
-    password: 'password',
-    role: 'user'
-  }
 ];
 
 export function findUser(username: string, password: string): User | null {

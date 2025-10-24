@@ -12,8 +12,8 @@ node_modules
 .DS_Store
 Thumbs.db
 
-# Env
-.env
+# Env i left !.env on purpose 
+!.env 
 .env.*
 !.env.example
 !.env.test

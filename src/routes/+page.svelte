@@ -2,13 +2,14 @@
 import { authStore } from '$stores/authStore';
 import { onMount } from 'svelte';
 import { goto } from '$app/navigation';
-	import Container from '$lib/components/layout/Container.svelte';
-	import Loading from '$lib/components/feedback/Loading.svelte';
+import Container from '$lib/components/layout/Container.svelte';
+import Loading from '$lib/components/feedback/Loading.svelte';
 
 onMount(() => {
   authStore.subscribe((state) => {
     // setTimeout simula redirecting
     setTimeout(()=>{
+      // check usuario
     if (state.user) {
       goto('/dashboard'); 
     } else {
