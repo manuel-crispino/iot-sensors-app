@@ -23,7 +23,7 @@ Copia y pega este script en tu terminal.
 git clone git@github.com:manuel-crispino/iot-sensors-app.git
 cd iot-sensors-app
 npm i
-npx vite --open
+npm run quick
 
 ```
 
