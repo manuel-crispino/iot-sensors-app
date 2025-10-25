@@ -5,7 +5,7 @@
 	import { onMount } from "svelte";
 
   let element: HTMLElement;
-  let isDark:boolean = true;
+  let isDark:boolean = false;
 	
 	
   function handleLogout(){
