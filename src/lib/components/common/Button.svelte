@@ -2,7 +2,7 @@
   // props
   export let text: string; 
   export let type: "button" | "submit" | "reset" = "button"; // default type
-  export let onClick: (() => void);
+  export let onClick: (() => void)= () => {};
 </script>
 
 <button 

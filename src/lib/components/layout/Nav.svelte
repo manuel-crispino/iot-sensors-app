@@ -4,13 +4,15 @@
   import { goto } from '$app/navigation';
 	import { onMount } from "svelte";
 
- let element: HTMLElement;
-  let isDark:boolean;
+  let element: HTMLElement;
+  let isDark:boolean = true;
 	
 	
-  function handleLogout() {
+  function handleLogout(){
     logout();
-    goto('/login');
+    goto('/login').then(()=>{
+
+    });
   }
 
 onMount(() => {

@@ -6,6 +6,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
+		"quick": "chmod +x ./quick-start.sh && ./quick-start.sh",
 		"kill-ports": "npx kill-port 3000 5173",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",

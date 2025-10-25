@@ -9,8 +9,8 @@
   <label for="" class="text-sm font-medium dark:text-white">{label}</label>
   <select name={label} bind:value={value} class="border rounded p-2 dark:bg-white dark:text-black">
     <option  value="">Todos</option>
-    {#each options as As}
-      <option value={As}>{As}</option>
+    {#each options as option (option)}
+      <option value={option}>{option}</option>
     {/each}
   </select>
 </div>
