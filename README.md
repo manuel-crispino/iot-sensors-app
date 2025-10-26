@@ -30,35 +30,47 @@ Antes de ejecutar la aplicación, asegúrate de tener instaladas las siguientes 
 > 💡 Si alguno de estos programas no está instalado, sigue la guía de instalación más abajo.
 
 ```bash
-
-# MacOs
+# ------------------------
+# MacOS
+# ------------------------
 
 # Instalar Node.js y nodemon
 brew install node
 npm install -g nodemon
 
-#------------------------
+# Instalar NATS Server
+brew install nats-server
 
+# ------------------------
 # Linux (Ubuntu / Debian)
+# ------------------------
+
+# Node.js y nodemon
 sudo apt update
 sudo apt install -y nodejs npm
 sudo npm install -g nodemon
 
-#-------------------------
+# NATS Server
+sudo apt install -y nats-server
 
-# Window
+# ------------------------
+# Windows
+# ------------------------
 
 # 1️⃣ Descarga e instala Node.js desde:
 # 👉 https://nodejs.org/es/download/
 # 2️⃣ Abre PowerShell como administrador y ejecuta:
-
-# Abre PowerShell como administrador y ejecuta:
 npm install -g nodemon
+
+# 3️⃣ Descarga NATS Server para Windows desde:
+# 👉 https://github.com/nats-io/nats-server/releases
+# Extrae el ejecutable y añádelo a tu PATH para poder ejecutar:
+# nats-server -v
 
 ```
 ### Ejecución rápida
 
-Una vez instalado Node, npm y Nodemon, puedes iniciar la aplicación con:
+Una vez instalado Node, NPM, Nodemon y Nats, puedes iniciar la aplicación con:
 
 Copia y pega este script en tu terminal.
 
@@ -68,6 +80,17 @@ cd iot-sensors-app
 npm i
 npm run quick
 
+```
+## Iniciar NATS Server
+
+Una vez instalado, puedes iniciar NATS con:
+
+```bash
+# MacOS / Linux
+nats-server -c nats-server.conf
+
+# Windows (desde PowerShell)
+nats-server.exe -c nats-server.conf
 ```
 
 ## Credenciales de prueba
@@ -81,6 +104,7 @@ password: password
 ```bash
 src/
 ├── application/                # Lógica de la aplicación (servicios, casos de uso)
+│   ├── natsService.ts          # Funciones para conectar en NATS
 │   ├── sensorService.ts        # Funciones CRUD y lógica de sensores
 │
 ├── domain/                     # Modelos y tipos del dominio
@@ -152,7 +176,7 @@ Esto garantiza una separación clara entre capas y facilita la escalabilidad.
 <br/>
 ↓
 <br/>
-🧠 Capa de aplicación (sensorService / authService)
+🧠 Capa de aplicación (sensorService)
 <br/>
 ↓
 <br/>

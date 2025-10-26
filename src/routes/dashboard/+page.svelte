@@ -23,6 +23,7 @@
   import TablaSensores from '$lib/components/dashboard/TablaSensores.svelte';
   import Button from '$lib/components/common/Button.svelte';
   import SensorForm from '$lib/components/dashboard/SensorForm.svelte';
+  import { initNATS } from "$application/natsService";
 
   let loaded: boolean = false;
   let error: string | null = null;
@@ -45,6 +46,7 @@
     }, 15000);
 
     try {
+      await initNATS("ws://localhost:4224"); // URL del tuo server NATS
       const data = await getSensores();
       sensores.set(data);
       loaded = true;
