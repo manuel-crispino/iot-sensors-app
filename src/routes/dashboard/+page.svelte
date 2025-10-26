@@ -70,8 +70,7 @@
 // 🟢 Create / Update
 async function createOrUpdate(sensor: Sensor) {
   try {
-    const data = await saveSensor(sensor);
-    sensores.set(data);
+    await saveSensor(sensor);
     showModal = false;
   } catch (err) {
     console.error("Error saving sensor:", err);
@@ -83,8 +82,7 @@ async function createOrUpdate(sensor: Sensor) {
 async function handleDelete(id: number) {
   if (window.confirm("Eliminar ?")) {
     try {
-      const data = await deleteSensor(id);
-      sensores.set(data);
+      await deleteSensor(id);
     } catch (err) {
       console.error("Error deleting sensor:", err);
       alert("No se pudo eliminar el sensor.");
