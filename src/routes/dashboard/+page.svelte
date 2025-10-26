@@ -22,7 +22,7 @@
   import FilterSelect from '$lib/components/dashboard/FilterSelect.svelte';
   import TablaSensores from '$lib/components/dashboard/TablaSensores.svelte';
   import Button from '$lib/components/common/Button.svelte';
-  import SensorForm from '$lib/components/dashboard/SensorFrom.svelte';
+  import SensorForm from '$lib/components/dashboard/SensorForm.svelte';
 
   let loaded: boolean = false;
   let error: string | null = null;
@@ -116,28 +116,37 @@
     <h1 class="text-red-500 font-semibold">{error}</h1>
   {/if}
 
-  <div class="flex flex-col items-center gap-6">
+  <div class="flex flex-col items-center gap-5">
     <h1 class="text-2xl font-semibold dark:text-white">Panel de Sensores</h1>
 
     <!-- Filtri -->
+     
     <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
       <h1 class="dark:text-white">Filtros</h1>
-      <Input type="text" placeholder="Buscar..." bind:value={$filtro} />
+      <Input type="text" placeholder="Buscar por nombre o por tipos..." bind:value={$filtro} />
       <FilterSelect bind:value={$filtroId} label="Id" options={idUnica} />
       <FilterSelect bind:value={$filtroNombre} label="Nombre" options={nombresUnicos} />
       <FilterSelect bind:value={$filtroTipo} label="Tipos" options={tiposUnicos} />
       <FilterSelect bind:value={$filtroValor} label="Valores" options={valorUnicos} />
       <FilterSelect bind:value={$filtroEstado} label="Estados" options={estadoUnicos} />
       <div>
-        <FilterSelect bind:value={$criterioOrden} label="Ordenar por" options={['nombre','tipo','valor']} showDefaultValue={false} />
-        <Button onClick={() => ordenAscendente.set(!$ordenAscendente)} text={$ordenAscendente ? 'Ascendente ↑' : 'Descendente ↓'} />
+        <FilterSelect 
+          bind:value={$criterioOrden} 
+          label="Ordenar por" 
+          options={['nombre','tipo','valor']} 
+          showDefaultValue={false} />
+        <Button
+          personalClass="mt-1"
+          onClick={() => ordenAscendente.set(!$ordenAscendente)} text={$ordenAscendente ? 'Ascendente ↑':'Descendente ↓'} />
       </div>
     </div>
 
     <!-- Bottone nuovo sensore -->
-    <button class="bg-green-500 text-white rounded p-2" on:click={() => { editingSensor = null; showModal = true; }}>
-      Nuevo Sensor
-    </button>
+    <Button 
+      personalClass="bg-green-500 hover:bg-green-600 text-white hover:text-white" 
+      onClick={() => { editingSensor = null; showModal = true; }}
+      text=" Nuevo Sensor"
+    />
 
     <!-- Modal form -->
     {#if showModal}

@@ -22,13 +22,13 @@
   on:submit|preventDefault={handleSubmit}
 >
   <label for="">Nombre</label>
-  <input bind:value={sensor.nombre} class="border p-1 rounded" />
+  <input bind:value={sensor.nombre} class="border p-1 rounded" required/>
 
   <label for="">Tipo</label>
-  <input bind:value={sensor.tipo} class="border p-1 rounded" />
+  <input bind:value={sensor.tipo} class="border p-1 rounded" required/>
 
   <label for="">Valor</label>
-  <input type="number" step="0.01" bind:value={sensor.valor} class="border p-1 rounded" />
+  <input type="number" step="0.01" bind:value={sensor.valor} class="border p-1 rounded" required/>
 
   <label for="">Estado</label>
   <select bind:value={sensor.estado} class="border p-1 rounded">

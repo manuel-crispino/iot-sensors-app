@@ -17,6 +17,49 @@ Aplicación demo para la gestión y visualización de sensores IoT.
 
 ## Inicio rápido
 
+###  Requisitos
+
+Antes de ejecutar la aplicación, asegúrate de tener instaladas las siguientes herramientas:
+
+
+| **Node.js**  ≥ `v24.8.0`  `node -v` 
+| **npm**  ≥ `11.6.0`  `npm -v` 
+| **nodemon**  ≥ `3.1.10`  `nodemon -v` 
+| **Git**  última  `git --version` 
+
+> 💡 Si alguno de estos programas no está instalado, sigue la guía de instalación más abajo.
+
+```bash
+
+# MacOs
+
+# Instalar Node.js y nodemon
+brew install node
+npm install -g nodemon
+
+#------------------------
+
+# Linux (Ubuntu / Debian)
+sudo apt update
+sudo apt install -y nodejs npm
+sudo npm install -g nodemon
+
+#-------------------------
+
+# Window
+
+# 1️⃣ Descarga e instala Node.js desde:
+# 👉 https://nodejs.org/es/download/
+# 2️⃣ Abre PowerShell como administrador y ejecuta:
+
+# Abre PowerShell como administrador y ejecuta:
+npm install -g nodemon
+
+```
+### Ejecución rápida
+
+Una vez instalado Node, npm y Nodemon, puedes iniciar la aplicación con:
+
 Copia y pega este script en tu terminal.
 
 ```bash
@@ -37,18 +80,16 @@ password: password
 ## Estructura del proyecto
 ```bash
 src/
-├── domain/                     # Modelos y tipos del dominio
-│   └── Sensor.ts               # Definición del tipo Sensor
-│   └── User.ts                 # Definición del tipo User
-│
 ├── application/                # Lógica de la aplicación (servicios, casos de uso)
 │   ├── sensorService.ts        # Funciones CRUD y lógica de sensores
-│   └── authService.ts          # Funciones de login/logout
+│
+├── domain/                     # Modelos y tipos del dominio
+│   └── form.ts                 # Definición del tipo form
+│   └── sensor.ts               # Definición del tipo Sensor
+│   └── user.ts                 # Definición del tipo User
 │
 ├── infrastructure/             # Acceso a backend, almacenamiento, NATS
 │   ├── mockDatabase.ts         # Backend simulado (simula DB)
-│   ├── natsClient.ts           # Conexión a NATS
-│   └── storage.ts              # Helpers para localStorage/sessionStorage
 │
 ├── lib/
 │   └── components/             # Componentes reutilizables
@@ -57,15 +98,15 @@ src/
 │       │
 │       ├── common/             # Componentes genéricos reutilizables
 │       │   ├── Button.svelte
-│       │   ├── Form.svelte
 │       │   ├── Card.svelte
+│       │   ├── Form.svelte
 │       │   ├── Input.svelte
 │       │   └── Modal.svelte
 │       │
 │       ├── dashboard/          # Componentes específicos del dashboard
-│       │   ├── SensorTable.svelte
+│       │   └── FilterSelect.svelte
 │       │   ├── SensorForm.svelte
-│       │   └── SensorCard.svelte
+│       │   ├── TablaSensor.svelte
 │       │
 │       │
 │       └── feedback/           # Componentes para UI dinámica o retroalimentación
@@ -74,12 +115,14 @@ src/
 │       │
 │       ├── layout/             # Componentes relacionados con el layout global
 │       │   ├── Container.svelte
+│       │   ├── Footer.svelte
+│       │   ├── Nav.svelte
 │
 ├── routes/                     # Páginas y layout de SvelteKit
 │   ├── +layout.svelte          # Layout global (header, footer, slot)
 │   ├── login/
 │   │   ├── +page.svelte        # Página de login
-│   │   └── +page.ts            # Función load (opcional)
+│   │   
 │   └── dashboard/
 │       ├── +page.svelte        # Página del dashboard
 │       └── +page.ts            # Función load, autenticación, fetch de sensores
@@ -87,6 +130,7 @@ src/
 └── stores/                     # Stores de Svelte (patrón Flux)
     ├── sensorsStore.ts         # Estado de los sensores y funciones reactivas
     └── authStore.ts            # Estado de autenticación del usuario
+    └── themeStore.ts           # Estado de tema 
 
 ```
 ## npm packages 

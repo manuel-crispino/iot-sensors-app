@@ -20,7 +20,7 @@
   </thead>
   <tbody>
     {#each sensores as sensor (sensor.id)}
-      <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+      <tr class="hover:bg-gray-300 dark:hover:bg-gray-700 transition">
         <td class="border px-4 py-2">{sensor.id}</td>
         <td class="border px-4 py-2">{sensor.nombre}</td>
         <td class="border px-4 py-2">{sensor.tipo}</td>
@@ -35,13 +35,13 @@
         <td class="border px-4 py-2 text-center space-x-2">
           <button
             on:click={() => onEdit(sensor)}
-            class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+            class="bg-blue-500 cursor-pointer text-white px-2 py-1 rounded hover:bg-blue-700"
           >
             Editar
           </button>
           <button
             on:click={() => onDelete(sensor.id)}
-            class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+            class="bg-red-500 text-white px-2 py-1 rounded cursor-pointer hover:bg-red-600"
           >
             Eliminar
           </button>
