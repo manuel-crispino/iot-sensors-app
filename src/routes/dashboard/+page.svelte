@@ -17,7 +17,7 @@
   import Container from '$lib/components/layout/Container.svelte';
   import Input from '$lib/components/common/Input.svelte';
   import type { Sensor } from '$domain/sensor';
-  import { getSensores } from '$application/sensorService';
+  import { getSensores, saveSensor, deleteSensor } from '$application/sensorService';
   import Loading from '$lib/components/feedback/Loading.svelte';
   import FilterSelect from '$lib/components/dashboard/FilterSelect.svelte';
   import TablaSensores from '$lib/components/dashboard/TablaSensores.svelte';
@@ -65,47 +65,30 @@
   $: valorUnicos = [...new Set($sensores.map(s => s.valor))];
   $: estadoUnicos = [...new Set($sensores.map(s => s.estado ? 'activo' : 'inactivo'))];
 
-  // 🟢 Create / Update
-  async function createOrUpdate(sensor: Sensor) {
-    const urlBase = import.meta.env.VITE_API_URL;
-    const token = import.meta.env.VITE_API_TOKEN;
-
-    if (sensor.id && sensor.id > 0) {
-      // Update
-      await fetch(`${urlBase}/sensores/${sensor.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sensor, token })
-      });
-    } else {
-      // Create
-      await fetch(`${urlBase}/sensores/update`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sensor, token })
-      });
-    }
-
-    // Aggiorna lista dal server
-    const res = await fetch(`${urlBase}/sensores`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token })
-    });
-    sensores.set(await res.json());
+// 🟢 Create / Update
+async function createOrUpdate(sensor: Sensor) {
+  try {
+    const data = await saveSensor(sensor);
+    sensores.set(data);
     showModal = false;
+  } catch (err) {
+    console.error("Error saving sensor:", err);
+    alert("No se pudo guardar el sensor.");
   }
+}
 
-  // 🔴 Delete
-  async function handleDelete(id: number) {
-    const confirm = window.confirm("Eliminar ?");
-    if(confirm){
-    const urlBase = import.meta.env.VITE_API_URL;
-    await fetch(`${urlBase}/sensores/${id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } });
-    sensores.update(list => list.filter(s => s.id !== id));
+// 🔴 Delete
+async function handleDelete(id: number) {
+  if (window.confirm("Eliminar ?")) {
+    try {
+      const data = await deleteSensor(id);
+      sensores.set(data);
+    } catch (err) {
+      console.error("Error deleting sensor:", err);
+      alert("No se pudo eliminar el sensor.");
     }
-    return;
   }
+}
 
 </script>
 

@@ -1,43 +1,49 @@
 import type { Sensor } from "$domain/sensor";
 
-const API = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
+const TOKEN = import.meta.env.VITE_API_TOKEN;
 
-// 🔹 GET all
+// Fetch todos los sensores
 export async function getSensores(): Promise<Sensor[]> {
-  const res = await fetch(`${API}/sensores`, {
+  const res = await fetch(`${API_URL}/sensores`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token: import.meta.env.VITE_API_TOKEN })
+    body: JSON.stringify({ token: TOKEN })
   });
 
-  if (!res.ok) throw new Error("Failed to fetch sensors");
-  return res.json();
+  if (!res.ok) throw new Error("Failed to fetch sensores");
+  return await res.json();
 }
 
-// 🔹 CREATE
-export async function createSensor(sensor: Sensor): Promise<Sensor> {
-  const res = await fetch(`${API}/sensores`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(sensor)
+// Create or Update sensores
+export async function saveSensor(sensor: Sensor): Promise<Sensor[]> {
+  if (sensor.id && sensor.id > 0) {
+    // Update
+    await fetch(`${API_URL}/sensores/${sensor.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sensor, token: TOKEN })
+    });
+  } else {
+    // Create
+    await fetch(`${API_URL}/sensores/update`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sensor, token: TOKEN })
+    });
+  }
+
+  
+  return await getSensores();
+}
+
+// Delete 
+export async function deleteSensor(id: number): Promise<Sensor[]> {
+  await fetch(`${API_URL}/sensores/${id}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" }
   });
-  if (!res.ok) throw new Error("Failed to create sensor");
-  return res.json();
-}
 
-// 🔹 UPDATE
-export async function updateSensor(sensor: Sensor): Promise<Sensor> {
-  const res = await fetch(`${API}/sensores/${sensor.id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(sensor)
-  });
-  if (!res.ok) throw new Error("Failed to update sensor");
-  return res.json();
-}
 
-// 🔹 DELETE
-export async function deleteSensor(id: number): Promise<void> {
-  const res = await fetch(`${API}/sensores/${id}`, { method: "DELETE" });
-  if (!res.ok) throw new Error("Failed to delete sensor");
+  return await getSensores();
 }
