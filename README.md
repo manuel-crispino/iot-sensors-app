@@ -5,7 +5,12 @@ Aplicación demo para la gestión y visualización de sensores IoT.
 
 ## Índice
 
+
+<a href='#requisitos'>Requisitos</a>
+<br/>
 <a href='#inicio-rápido'>Inicio rápido</a>
+<br/>
+<a href='#iniciar-nats-server'>Iniciar nats server</a>
 <br/>
 <a href='#estructura-del-proyecto'>Estructura del proyecto</a>
 <br/>
