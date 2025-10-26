@@ -46,7 +46,10 @@ app.post('/sensores/update', async (req, res) => {
     // Genera nuovo id
     const newSensor = {
       id: sensores.length ? Math.max(...sensores.map(s => s.id)) + 1 : 1,
-      ...sensor
+      nombre: sensor.nombre,
+      tipo: sensor.tipo,
+      valor: sensor.valor,
+      estado: sensor.estado
     };
 
     sensores.push(newSensor);
@@ -70,15 +73,26 @@ app.put('/sensores/:id', async (req, res) => {
       return res.status(404).json({ error: 'Sensor not found' });
     }
 
-    sensores[index] = { ...sensores[index], ...req.body };
-    console.log("Sensor updated:", sensores[index]);
+    const { sensor } = req.body; 
+    if (!sensor) return res.status(400).json({ error: "Missing sensor data" });
 
+    // Aggiorna solo i campi necessari
+    sensores[index] = {
+      ...sensores[index],
+      nombre: sensor.nombre,
+      tipo: sensor.tipo,
+      valor: sensor.valor,
+      estado: sensor.estado
+    };
+
+    console.log("Sensor updated:", sensores[index]);
     res.json(sensores[index]);
   } catch (err) {
     console.error("Error updating sensor:", err);
     res.status(500).json({ error: "Failed to update sensor" });
   }
 });
+
 
 // --- DELETE sensor ---
 app.delete('/sensores/:id', async (req, res) => {
