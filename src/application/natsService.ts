@@ -1,55 +1,102 @@
+// Importamos las funciones y tipos necesarios de la librería NATS para WebSockets
 import { connect, StringCodec } from "nats.ws";
 import type { NatsConnection } from "nats.ws";
+
+// Importamos nuestro store de sensores, que es un store Svelte
+// para mantener la lista de sensores reactiva en la aplicación
 import { sensores } from "$stores/sensorsStore";
+
+// Importamos el tipo Sensor para tipar correctamente los mensajes
 import type { Sensor } from "$domain/sensor";
 
+// Variable global que contendrá la conexión activa a NATS
 let nc: NatsConnection;
+
+//  StringCodec se usa para codificar y decodificar los mensajes como strings
+// Esto es necesario porque NATS transmite mensajes como Uint8Array
 const sc = StringCodec();
 
-// 🔹 Conectarse a NATS
+/**
+ * Función para inicializar la conexión con el servidor NATS
+ * @param url URL del servidor NATS con protocolo ws (WebSocket)
+ * - Por defecto: "ws://localhost:4224"
+ * 
+ */
+
 export async function initNATS(url = "ws://localhost:4224") {
   try {
+    //  Conectarse al servidor NATS
+    // Esto retorna un objeto NatsConnection que usaremos para publicar y suscribir
     nc = await connect({ servers: url });
     console.log("✅ Conectado a NATS:", url);
 
-    // Suscribirse al canal de sensores
+    // Suscribirse al canal "sensores"
+    // Cada mensaje enviado a este canal será recibido en el bucle for await
     const sub = nc.subscribe("sensores");
+
+    // Iniciamos un bucle asíncrono para procesar todos los mensajes recibidos
     (async () => {
       for await (const msg of sub) {
         try {
+          // Decodificamos el mensaje de bytes a string y luego a JSON
           const updatedSensor: Sensor & { action?: string } = JSON.parse(sc.decode(msg.data));
           console.log("📡 Mensaje NATS recibido:", updatedSensor);
-            
-          // Actualizar el store
+
+          //  Actualizamos el store reactivo de Svelte
+          // Esto hace que la UI se actualice automáticamente cuando cambian los sensores
           sensores.update(list => {
 
-            // delete
+            // Si el mensaje indica una acción "delete", eliminamos el sensor de la lista
             if (updatedSensor.action === "delete") {
-              // 👇 Si es una eliminación, eliminar de la lista
+              // Filter crea un nuevo array excluyendo el sensor eliminado
               return list.filter(s => s.id !== updatedSensor.id);
             }
 
+            // Si no es eliminación, buscamos si el sensor ya existe
             const index = list.findIndex(s => s.id === updatedSensor.id);
             if (index > -1) {
+              // Si existe, actualizamos sus campos
               list[index] = { ...list[index], ...updatedSensor };
             } else {
-              list.push(updatedSensor); // si es nuevo, lo añade
+              // Si no existe, lo añadimos como nuevo
+              list.push(updatedSensor);
             }
+
+            // Retornamos una nueva copia del array para forzar la reactividad
             return [...list];
           });
+
         } catch (err) {
+          // Capturamos errores en la decodificación o parsing del mensaje
           console.error("❌ Error al analizar el mensaje NATS:", err);
         }
       }
     })();
   } catch (err) {
-    console.error("❌ Error al conectar con NATS:", err);
+    // Captura errores de conexión inicial a NATS
+    console.error("Error al conectar con NATS:", err);
   }
 }
 
-// 🔹 Enviar mensajes (opcional)
-export async function publishSensorUpdate(sensor: Sensor) {
+/**
+ *  Función para enviar mensajes de actualización de un sensor a NATS
+ * @param sensor Objeto Sensor a publicar
+ * - Esto permitirá que otros clientes suscritos al canal "sensores" reciban la actualización
+ * 
+ * Documentación NATS Publish: https://docs.nats.io/using-nats/developer/clients/javascript#publish
+ */
+export async function publishSensorUpdate(sensor: Sensor,state:'modificado'|'eliminado'|'creado') {
+
+  // Verificamos que haya conexión activa
   if (!nc) return;
+  alert( `sensor ${state} : ${sensor}`);
   nc.publish("sensores", sc.encode(JSON.stringify(sensor)));
   console.log("📤 Actualización enviada a NATS:", sensor);
+}
+
+// cerrar conexion
+export async function closeNATS() {
+  if (!nc) return;
+  await nc.drain(); // espera a que todo se complete
+  console.log("🛑 Conexión NATS cerrada de forma segura");
 }

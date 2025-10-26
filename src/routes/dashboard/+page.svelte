@@ -36,7 +36,7 @@
     }, 15000);
 
     try {
-      await initNATS("ws://localhost:4224"); // URL del tuo server NATS
+      await initNATS("ws://localhost:4224");
       const data = await getSensores();
       sensores.set(data);
       loaded = true;

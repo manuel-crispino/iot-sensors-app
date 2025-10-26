@@ -4,17 +4,22 @@
   import { goto } from '$app/navigation';
   import { onMount } from "svelte";
   import storedTheme from "$stores/themeStore";
-
+  import {closeNATS} from "$application/natsService"
+	import Loading from "../feedback/Loading.svelte";
   let element: HTMLElement;
 
   // ✅ isDark se deriva automáticamente del store
   // Si $storedTheme es 'dark', entonces isDark será true
   $: isDark = $storedTheme === 'dark';
 
+  let isLoading:boolean = false;
   // Función para cerrar sesión
-  function handleLogout(){
+  async function handleLogout(){
+    isLoading = true;
+    await closeNATS();  // CLOSE connection safely
     logout();          // Elimina el usuario del store y localStorage
     goto('/login');    // Redirige a la página de login
+    setTimeout(()=>{isLoading=false},2000); // 2 seconds
   }
 
   // Se ejecuta cuando el componente se monta en el DOM
@@ -36,7 +41,7 @@
 </script>
 
 <!-- Navbar -->
-<nav class="w-full z-0 bg-gray-200/20 py-2 px-10 flex items-center justify-between dark:bg-gray-800/20 dark:text-white">
+<nav class="fixed w-full z-0 bg-gray-200/20 py-2 px-10 flex items-center justify-between dark:bg-gray-800/20 dark:text-white">
     <h1 class="text-xl font-semibold">IOT SENSORS APP</h1>
 
     <!-- Botón para alternar tema -->
@@ -47,3 +52,10 @@
         <Button text="Logout" onClick={handleLogout} />
     {/if}
 </nav>
+
+{#if isLoading}
+  <div class="z-10">
+    <Loading message="Signing out..."/>
+  </div>
+{/if}
+
