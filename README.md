@@ -31,6 +31,7 @@ Antes de ejecutar la aplicación, asegúrate de tener instaladas las siguientes 
 | **npm**  ≥ `11.6.0`  `npm -v` 
 | **nodemon**  ≥ `3.1.10`  `nodemon -v` 
 | **Git**  última  `git --version` 
+| **Nats Server** 
 
 > 💡 Si alguno de estos programas no está instalado, sigue la guía de instalación más abajo.
 
