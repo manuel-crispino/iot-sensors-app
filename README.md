@@ -10,6 +10,10 @@ Aplicación demo para la gestión y visualización de sensores IoT.
 <br/>
 <a href='#inicio-rápido'>Inicio rápido</a>
 <br/>
+<a href='#requisitos'>Requisitos</a>
+<br/>
+<a href='#ejecución-rápida-macos-y-linux'>Ejecución rápida macOs y linux</a>
+<br/>
 <a href='#iniciar-nats-server'>Iniciar nats server</a>
 <br/>
 <a href='#estructura-del-proyecto'>Estructura del proyecto</a>
@@ -74,19 +78,39 @@ npm install -g nodemon
 # nats-server -v
 
 ```
-### Ejecución rápida
+### Ejecución rápida MacOs y Linux 
 
 Una vez instalado Node, NPM, Nodemon y Nats, puedes iniciar la aplicación con:
 
 Copia y pega este script en tu terminal.
 
 ```bash
-git clone git@github.com:manuel-crispino/iot-sensors-app.git
+git clone https://github.com/manuel-crispino/iot-sensors-app.git
 cd iot-sensors-app
-npm i
 npm run quick
-
 ```
+
+### Window start
+
+Una vez instalado Node, NPM, Nodemon y Nats, puedes iniciar la aplicación.
+Copia y pega este script en tu terminal PowerShell o CMD (en Windows):
+
+```bash
+git clone https://github.com/manuel-crispino/iot-sensors-app.git
+cd iot-sensors-app
+npm install
+npm run dev
+```
+Abre un nuevo terminal de Windows y ejecuta:
+
+```bash
+cd iot-sensors-app
+cd server 
+npm install
+npm run dev
+```
+
+
 ## Iniciar NATS Server
 
 Una vez instalado, puedes iniciar NATS con:
@@ -142,6 +166,7 @@ src/
 │       └── feedback/           # Componentes para UI dinámica o retroalimentación
 │       │   ├── Loading.svelte
 │       │   ├── Overlay.svelte
+│       │   ├── SvelteToast.svelte
 │       │
 │       ├── layout/             # Componentes relacionados con el layout global
 │       │   ├── Container.svelte
@@ -168,6 +193,8 @@ src/
 - nats.ws   // socket
 - uuid      // Universally Unique Identifier
 - lucide-svelte // icons
+- @zerodevx/svelte-toast // notifications
+
 
 ## Data Flow (Clean + Flux)
 
