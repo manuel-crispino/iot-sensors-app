@@ -14,6 +14,7 @@
   import { initNATS } from "$application/natsService";
   // type
   import type { Sensor } from '$domain/sensor';
+	import SvelteToast from '$lib/components/feedback/SvelteToast.svelte';
 
   let loaded: boolean = false;
   let error: string | null = null;
@@ -83,6 +84,7 @@ async function handleDelete(id: number) {
 </script>
 
 <Container>
+  <SvelteToast/>
   {#if !loaded}
     <Loading message="Fetching data" />
   {:else if error}

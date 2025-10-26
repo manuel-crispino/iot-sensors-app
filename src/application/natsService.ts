@@ -1,6 +1,7 @@
 // Importamos las funciones y tipos necesarios de la librería NATS para WebSockets
 import { connect, StringCodec } from "nats.ws";
 import type { NatsConnection } from "nats.ws";
+import { toast } from '@zerodevx/svelte-toast';
 
 // Importamos nuestro store de sensores, que es un store Svelte
 // para mantener la lista de sensores reactiva en la aplicación
@@ -49,6 +50,7 @@ export async function initNATS(url = "ws://localhost:4224") {
             // Si el mensaje indica una acción "delete", eliminamos el sensor de la lista
             if (updatedSensor.action === "delete") {
               // Filter crea un nuevo array excluyendo el sensor eliminado
+              toast.push(`Sensor ${updatedSensor.nombre} eliminado`, { duration: 3000 });
               return list.filter(s => s.id !== updatedSensor.id);
             }
 
@@ -56,9 +58,11 @@ export async function initNATS(url = "ws://localhost:4224") {
             const index = list.findIndex(s => s.id === updatedSensor.id);
             if (index > -1) {
               // Si existe, actualizamos sus campos
+              toast.push(`Sensor ${updatedSensor.nombre} actualizado`, { duration: 3000 });
               list[index] = { ...list[index], ...updatedSensor };
             } else {
               // Si no existe, lo añadimos como nuevo
+              toast.push(`Nuevo sensor ${updatedSensor.nombre} añadido`, { duration: 3000 });
               list.push(updatedSensor);
             }
 
@@ -85,11 +89,9 @@ export async function initNATS(url = "ws://localhost:4224") {
  * 
  * Documentación NATS Publish: https://docs.nats.io/using-nats/developer/clients/javascript#publish
  */
-export async function publishSensorUpdate(sensor: Sensor,state:'modificado'|'eliminado'|'creado') {
-
+export async function publishSensorUpdate(sensor: Sensor) {
   // Verificamos que haya conexión activa
   if (!nc) return;
-  alert( `sensor ${state} : ${sensor}`);
   nc.publish("sensores", sc.encode(JSON.stringify(sensor)));
   console.log("📤 Actualización enviada a NATS:", sensor);
 }

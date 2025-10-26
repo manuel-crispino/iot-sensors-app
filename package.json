@@ -44,6 +44,7 @@
 		"vitest-browser-svelte": "^1.1.0"
 	},
 	"dependencies": {
+		"@zerodevx/svelte-toast": "^0.9.6",
 		"lucide-svelte": "^0.546.0",
 		"nats.ws": "^1.30.3",
 		"uuid": "^13.0.0"
