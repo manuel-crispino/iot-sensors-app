@@ -18,13 +18,13 @@ export const filtroEstado = writable(''); // estado (activo/inactivo)
 export const filtroNombre = writable(''); // Nombre
 export const filtroId = writable(''); // id
 export const filtroValor = writable(''); // value
-export const oredenAscendente = writable<boolean>(true); // orden A-Z 
+export const ordenAscendente = writable<boolean>(true); // orden A-Z 
 export const criterioOrden = writable<'nombre'| 'tipo'| 'valor'>('nombre') // criterio orden nombre default
 
  // Store derivado: filtra y ordena los sensores automáticamente
  
 export const sensoresFiltrados = derived(
-  [sensores, filtro,filtroNombre, filtroTipo, filtroEstado,filtroId,filtroValor,oredenAscendente,criterioOrden],
+  [sensores, filtro,filtroNombre, filtroTipo, filtroEstado,filtroId,filtroValor,ordenAscendente,criterioOrden],
   ([$sensores, $filtro,$filtroNombre, $filtroTipo, $filtroEstado,$filtroId,$filtroValor,$ordenAscendente,$criterioOrden]) => {
     const textoFiltro = $filtro.trim().toLowerCase();
 
@@ -73,6 +73,7 @@ export const sensoresFiltrados = derived(
     }
 
     if ($criterioOrden) {
+
       // tim sort  = O(n log n)
       listaFiltrada = [...listaFiltrada].sort((a, b) => 
       {

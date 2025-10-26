@@ -13,6 +13,7 @@
 
 <div class="relative w-full">
   <input
+    name={placeholder}
     type={type === 'password' && showPassword ? 'text' : type}
     placeholder={placeholder}
     bind:value={value}
