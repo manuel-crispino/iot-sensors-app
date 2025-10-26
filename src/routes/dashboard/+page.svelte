@@ -2,21 +2,9 @@
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { authStore } from '$stores/authStore';
-  import { 
-    sensores,
-    filtro,
-    filtroNombre,
-    filtroId,
-    filtroValor, 
-    filtroTipo, 
-    filtroEstado, 
-    sensoresFiltrados,
-    ordenAscendente,
-    criterioOrden
-  } from '$stores/sensorsStore';
+  import { sensores,filtro,filtroNombre,filtroId,filtroValor,filtroTipo,filtroEstado,sensoresFiltrados,ordenAscendente,criterioOrden} from '$stores/sensorsStore';
   import Container from '$lib/components/layout/Container.svelte';
   import Input from '$lib/components/common/Input.svelte';
-  import type { Sensor } from '$domain/sensor';
   import { getSensores, saveSensor, deleteSensor } from '$application/sensorService';
   import Loading from '$lib/components/feedback/Loading.svelte';
   import FilterSelect from '$lib/components/dashboard/FilterSelect.svelte';
@@ -24,6 +12,8 @@
   import Button from '$lib/components/common/Button.svelte';
   import SensorForm from '$lib/components/dashboard/SensorForm.svelte';
   import { initNATS } from "$application/natsService";
+  // type
+  import type { Sensor } from '$domain/sensor';
 
   let loaded: boolean = false;
   let error: string | null = null;
