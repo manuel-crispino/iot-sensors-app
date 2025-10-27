@@ -1,26 +1,24 @@
 ## Iot Senors App 
 
-
 Aplicación demo para la gestión y visualización de sensores IoT. 
 
 ## Índice
 
-
 <a href='#requisitos'>Requisitos</a>
 <br/>
-<a href='#inicio-rápido'>Inicio rápido</a>
-<br/>
-<a href='#requisitos'>Requisitos</a>
+<a href='#iniciar-nats-server'>Iniciar nats server</a>
 <br/>
 <a href='#ejecución-rápida-macos-y-linux'>Ejecución rápida macOs y linux</a>
 <br/>
-<a href='#iniciar-nats-server'>Iniciar nats server</a>
+<a href='#window-start'>Ejecución rápida Window</a>
 <br/>
 <a href='#estructura-del-proyecto'>Estructura del proyecto</a>
 <br/>
 <a href='#npm-packages'>Paquetes NPM utilizados</a>
 <br/>
-<a href='#credenciales-de-prueba'>credenciales</a>
+<a href='#credenciales-de-prueba'>Credenciales de prueba Login</a>
+<br/>
+<a href='#tests'>Tests</a>
 <br/>
 
 
@@ -126,6 +124,7 @@ nats-server.exe -c nats-server.conf
 ## Credenciales de prueba
 
 Puedes iniciar sesión con las siguientes credenciales:
+
 username: admin
 password: password
 
@@ -165,6 +164,7 @@ src/
 │       │
 │       └── feedback/           # Componentes para UI dinámica o retroalimentación
 │       │   ├── Loading.svelte
+│       │   ├── Notifications.svelte
 │       │   ├── Overlay.svelte
 │       │   ├── SvelteToast.svelte
 │       │
@@ -172,7 +172,10 @@ src/
 │       │   ├── Container.svelte
 │       │   ├── Footer.svelte
 │       │   ├── Nav.svelte
-│
+│       │
+│       ├── utils/             # Funciones útiles (helpers y utilidades generales)
+│       │   ├──handleToast.ts   # Muestra notificaciones tipo "toast" con información del sensor 
+│       │
 ├── routes/                     # Páginas y layout de SvelteKit
 │   ├── +layout.svelte          # Layout global (header, footer, slot)
 │   ├── login/
@@ -183,16 +186,42 @@ src/
 │       └── +page.ts            # Función load, autenticación, fetch de sensores
 │
 └── stores/                     # Stores de Svelte (patrón Flux)
-    ├── sensorsStore.ts         # Estado de los sensores y funciones reactivas
-    └── authStore.ts            # Estado de autenticación del usuario
-    └── themeStore.ts           # Estado de tema 
-
+│  ├── sensorsStore.ts         # Estado de los sensores y funciones reactivas
+│  └── authStore.ts            # Estado de autenticación del usuario
+│  └── themeStore.ts           # Estado de tema 
+│
+└── test/                     # test 
+│  └── browser/*            # browser tests UI
+│  └── server/*             # Server tests Nats
+│
 ```
+## Tests 
+
+### Run tests
+   Antes de ejecutar los tests, asegúrate de haber instalado las dependencias y de tener NATS activo:
+
+    ```bash
+    cd iot-sensors-app
+    npm run test
+    ```
+
+### Test Pattern AAA 
+  Los tests siguen el patrón AAA (Arrange, Act, Assert):
+
+  Arrange:
+    - Preparamos todo lo necesario para el test
+
+  Act:
+    - Ejecutamos la acción que queremos probar
+
+  Assert:
+    - Verificamos que el resultado sea el esperado
+
 ## npm packages 
 
-- nats.ws   // socket
+- nats.ws   // socket 
 - uuid      // Universally Unique Identifier
-- lucide-svelte // icons
+- lucide-svelte // icons 
 - @zerodevx/svelte-toast // notifications
 
 
@@ -213,17 +242,9 @@ Esto garantiza una separación clara entre capas y facilita la escalabilidad.
 <br/>
 ↓
 <br/>
-🗄️ Capa de infraestructura (mockBackend / NATS)
+🗄️ Capa de infraestructura o Server (mockBackend / NATS / server.js)
 <br/>
 ↓
 <br/>
 🔁 Retorno al Store → Actualización reactiva de la UI
 <br/>
-
-### Explicación por capas
-
-- **UI Components** → Capturan la interacción del usuario (formularios, botones, etc.)  
-- **Stores (Flux)** → Mantienen el estado global y notifican cambios a la UI  
-- **Application Layer** → Contiene la lógica de negocio (casos de uso, validaciones, etc.)  
-- **Infrastructure Layer** → Se comunica con el backend o servicios externos (mock DB, NATS, etc.)  
-- **UI Update** → Cuando el store cambia, la UI se actualiza automáticamente gracias a la reactividad de Svelte  
