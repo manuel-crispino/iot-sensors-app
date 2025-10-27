@@ -17,7 +17,7 @@
 <div class="relative w-full">
   <input 
     name={placeholder}
-    type={type}
+     type={showPassword ? 'text' : 'password'}
     placeholder={placeholder}
     bind:value={value}
     autocomplete={autocomplete}
@@ -28,7 +28,7 @@
     <button
       type="button"
       on:click={() => (showPassword = !showPassword)}
-      class="cursor-pointer absolute rounded-full right-2 top-1/2 -translate-y-1/2 bg-black p-2 text-white hover:bg-gray-400 z-10"
+      class="cursor-pointer absolute rounded-full right-2 top-1/2 -translate-y-1/2 bg-black p-2 text-white hover:bg-gray-400 "
       aria-label="Toggle password visibility"
     >
       {#if showPassword}
