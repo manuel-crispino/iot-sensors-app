@@ -6,9 +6,6 @@
   import storedTheme from "$stores/themeStore";
   import {closeNATS} from "$application/natsService"
 	import Loading from "../feedback/Loading.svelte";
-	import { Mail } from "lucide-svelte";
-	import { MsgHdrsImpl } from "nats.ws";
-	import { notificationMessage } from "$stores/notificationStore";
 	import Notifications from "../feedback/Notifications.svelte";
   let element: HTMLElement;
 

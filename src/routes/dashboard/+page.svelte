@@ -15,6 +15,7 @@
   // type
   import type { Sensor } from '$domain/sensor';
 	import SvelteToast from '$lib/components/feedback/SvelteToast.svelte';
+	import { CircleX } from 'lucide-svelte';
 
   let loaded: boolean = false;
   let error: string | null = null;
@@ -92,15 +93,9 @@ async function handleDelete(id: number) {
   {/if}
 
   <div class="flex flex-col items-center gap-5">
-
-        <!-- nuevo sensor -->
-      <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
-    
-    </div>
     <h1 class="text-2xl font-semibold dark:text-white">Panel de Sensores</h1>
 
     <!-- Filtri -->
-     
     <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
       
       <h1 class="dark:text-white">Filtros</h1>
@@ -121,6 +116,7 @@ async function handleDelete(id: number) {
           onClick={() => ordenAscendente.set(!$ordenAscendente)} text={$ordenAscendente ? 'Ascendente ↑':'Descendente ↓'} />
       </div>
     </div>
+
     <div class="flex flex-col gap-2">
        <span class="dark:text-white">Haz clic para crear un nuevo sensor: </span>
       <Button 
@@ -129,12 +125,18 @@ async function handleDelete(id: number) {
         text=" Nuevo Sensor"
       />
     </div>
+
     <!-- Modal form -->
     {#if showModal}
+      <div class="flex flex-col gap-5">
+      <div>
+      <Button onClick={()=>showModal = false}>Cerrar<CircleX/></Button>
+      </div>
       <SensorForm 
         sensor={editingSensor || { id:0, nombre:'', tipo:'', valor:0, estado:true }} 
         onSubmit={createOrUpdate} 
       />
+      </div>
     {/if}
 
     <!-- Tabella sensori -->
