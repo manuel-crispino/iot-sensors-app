@@ -24,7 +24,7 @@ const sc = StringCodec();
  * 
  */
 
-export async function initNATS(url = "ws://localhost:4224") {
+export async function initNATS(url = "ws://localhost:4224",onComplete?:()=> void) {
   try {
     //  Conectarse al servidor NATS
     // Esto retorna un objeto NatsConnection que usaremos para publicar y suscribir
@@ -43,38 +43,48 @@ export async function initNATS(url = "ws://localhost:4224") {
           const updatedSensor: Sensor & { action?: string } = JSON.parse(sc.decode(msg.data));
           console.log("📡 Mensaje NATS recibido:", updatedSensor);
 
-          //  Actualizamos el store reactivo de Svelte
-          // Esto hace que la UI se actualice automáticamente cuando cambian los sensores
-          sensores.update(list => {
+          // Convalidacion de sensor antes de hacer un update
+          if (updatedSensor?.id && updatedSensor?.nombre && updatedSensor?.tipo && typeof updatedSensor.valor === 'number') {
+            //  Actualizamos el store reactivo de Svelte
+            // Esto hace que la UI se actualice automáticamente cuando cambian los sensores
+            sensores.update(list => {
 
-            // Si el mensaje indica una acción "delete", eliminamos el sensor de la lista
-            if (updatedSensor.action === "delete") {
-              // Filter crea un nuevo array excluyendo el sensor eliminado
-              toast.push(`Sensor ${updatedSensor.nombre} eliminado`, { duration: 3000 });
-              return list.filter(s => s.id !== updatedSensor.id);
-            }
+              // Si el mensaje indica una acción "delete", eliminamos el sensor de la lista
+              if (updatedSensor.action === "delete") {
+                // Filter crea un nuevo array excluyendo el sensor eliminado
+                toast.push(`Sensor ${updatedSensor.nombre} eliminado`, { duration: 3000 });
+                return list.filter(s => s.id !== updatedSensor.id);
+              }
 
-            // Si no es eliminación, buscamos si el sensor ya existe
-            const index = list.findIndex(s => s.id === updatedSensor.id);
-            if (index > -1) {
-              // Si existe, actualizamos sus campos
-              toast.push(`Sensor ${updatedSensor.nombre} actualizado`, { duration: 3000 });
-              list[index] = { ...list[index], ...updatedSensor };
-            } else {
-              // Si no existe, lo añadimos como nuevo
-              toast.push(`Nuevo sensor ${updatedSensor.nombre} añadido`, { duration: 3000 });
-              list.push(updatedSensor);
-            }
+              // Si no es eliminación, buscamos si el sensor ya existe
+              const index = list.findIndex(s => s.id === updatedSensor.id);
+              if (index > -1) {
+                // Si existe, actualizamos sus campos
+                toast.push(`Sensor ${updatedSensor.nombre} actualizado`, { duration: 3000 });
+                list[index] = { ...list[index], ...updatedSensor };
+              } else {
+                // Si no existe, lo añadimos como nuevo
+                toast.push(`Nuevo sensor ${updatedSensor.nombre} añadido`, { duration: 3000 });
+                list.push(updatedSensor);
+              }
 
-            // Retornamos una nueva copia del array para forzar la reactividad
-            return [...list];
-          });
+              // Retornamos una nueva copia del array para forzar la reactividad
+              return [...list];
+            });
+
+          } else {
+            console.warn('Convalidacion no validada! ', updatedSensor);
+          }
 
         } catch (err) {
           // Capturamos errores en la decodificación o parsing del mensaje
           console.error("❌ Error al analizar el mensaje NATS:", err);
         }
+
       }
+
+      // onComplete senala el test el terminar de la funcion
+      if(onComplete) onComplete();
     })();
   } catch (err) {
     // Captura errores de conexión inicial a NATS
