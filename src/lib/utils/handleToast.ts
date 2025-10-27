@@ -23,19 +23,23 @@ export async function handleToast(updatedSensor: Sensor, action: string): Promis
         const position = await new Promise<GeolocationPosition>((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject);
         });
-        positionText = `Lat: ${position.coords.latitude}, Lon: ${position.coords.longitude}`;
+        positionText = `${position.coords.latitude}, ${position.coords.longitude}`;
     } catch (err) {
         console.warn('Geolocalización no disponible', err);
     }
 
-    const msg = `
-    Sensor ${updatedSensor.nombre}
-    ${action} por el usuario: ${username}
-    Position: ${positionText}
-    Desde (${userAgent})
-    En fecha: ${date}`;
+        const msg = `
+    🔔 Sensor: ${updatedSensor.nombre};
+    🛠️ Acción: ${action}; 
+    👤 Usuario: ${username}; 
+    📍 Coordenadas: ${positionText};
+    🧭 Navegador: ${userAgent}; 
+    🕒 Fecha: ${date};
+    `;
 
-    toast.push(msg, { duration: 5000 });
+    toast.push(msg, { 
+    duration: 5000,
+    });
     notificationMessage.update((list)=>[...list, msg]);
     
 }

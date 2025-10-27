@@ -24,6 +24,7 @@
       placeholder="Password"
       bind:value={password}
       autocomplete="current-password"
+      password
       required
     />
     <Button type="submit" text="Login" />

@@ -25,20 +25,22 @@
     <!-- Botón de cierre -->
     <Button 
       onClick={() => { showModal = false }} 
-      personalClass="absolute top-1 right-2 !dark:bg-white !dark:text-black"
+      personalClass="fixed absolute top-45 right-40 bg-white !text-black hover:bg-red-300"
     >
       Cerrar <CircleX />
     </Button>
     
     <div class="bg-gray-800 text-white p-6 rounded-xl shadow-lg max-h-full w-full max-w-lg overflow-y-auto relative">
       <!-- Lista de notificaciones -->
-       <Button onClick={()=>{notificationMessage.set([])}}>elimina notificaciones</Button>
+       <Button personalClass={"bg-white !text-black hover:bg-red-300"} onClick={()=>{notificationMessage.set([]),showModal = false}}>Elimina notificaciones</Button>
       <ul class="mt-4">
         {#if $notificationMessage.length < 1}
           <li>No tienes notificaciones aún</li>
         {/if}
         {#each $notificationMessage as msg (msg)}
-          <li>{msg}</li>
+            {#each msg.split(';').filter(line => line.trim() !== '') as line}
+              <div>{line}</div>
+            {/each}
           <hr class="my-2">
         {/each}
       </ul>

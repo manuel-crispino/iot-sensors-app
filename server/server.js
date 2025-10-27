@@ -6,9 +6,21 @@ import sensores from './store/data.js';
 const tokens = JSON.parse(fs.readFileSync('./store/tokens.json', 'utf-8'));
 const app = express();
 const PORT = 3000;
-const HOST = 'http://localhost:5173';
 
-app.use(cors({ origin: HOST, credentials: true }));
+// add your https dominio or --host here
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:4173']; 
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Origen no permitido por CORS'));
+    }
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 
 function checkToken(apiToken,res){
