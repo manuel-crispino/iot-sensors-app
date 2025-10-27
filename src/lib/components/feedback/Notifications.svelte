@@ -32,14 +32,14 @@
     
     <div class="bg-gray-800 text-white p-6 rounded-xl shadow-lg max-h-full w-full max-w-lg overflow-y-auto relative">
       <!-- Lista de notificaciones -->
+       <Button onClick={()=>{notificationMessage.set([])}}>elimina notificaciones</Button>
       <ul class="mt-4">
         {#if $notificationMessage.length < 1}
           <li>No tienes notificaciones aún</li>
         {/if}
         {#each $notificationMessage as msg (msg)}
           <li>{msg}</li>
-          <br>
-          <hr class="my-1">
+          <hr class="my-2">
         {/each}
       </ul>
     </div>
