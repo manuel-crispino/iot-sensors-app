@@ -92,13 +92,19 @@ async function handleDelete(id: number) {
   {/if}
 
   <div class="flex flex-col items-center gap-5">
+
+        <!-- nuevo sensor -->
+      <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
+    
+    </div>
     <h1 class="text-2xl font-semibold dark:text-white">Panel de Sensores</h1>
 
     <!-- Filtri -->
      
     <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
+      
       <h1 class="dark:text-white">Filtros</h1>
-      <Input type="text" placeholder="Buscar por nombre o por tipos..." bind:value={$filtro} />
+      <Input type="text" placeholder="Buscar por nombre o por tipos..." bind:value={$filtro}/>
       <FilterSelect bind:value={$filtroId} label="Id" options={idUnica} />
       <FilterSelect bind:value={$filtroNombre} label="Nombre" options={nombresUnicos} />
       <FilterSelect bind:value={$filtroTipo} label="Tipos" options={tiposUnicos} />
@@ -115,14 +121,14 @@ async function handleDelete(id: number) {
           onClick={() => ordenAscendente.set(!$ordenAscendente)} text={$ordenAscendente ? 'Ascendente ↑':'Descendente ↓'} />
       </div>
     </div>
-
-    <!-- Bottone nuovo sensore -->
-    <Button 
-      personalClass="bg-green-500 hover:bg-green-600 text-white hover:text-white" 
-      onClick={() => { editingSensor = null; showModal = true; }}
-      text=" Nuevo Sensor"
-    />
-
+    <div class="flex flex-col gap-2">
+       <span class="dark:text-white">Haz clic para crear un nuevo sensor: </span>
+      <Button 
+        personalClass="bg-green-500 hover:bg-green-600 text-white hover:text-white" 
+        onClick={() => { editingSensor = null; showModal = true; }}
+        text=" Nuevo Sensor"
+      />
+    </div>
     <!-- Modal form -->
     {#if showModal}
       <SensorForm 

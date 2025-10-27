@@ -1,6 +1,8 @@
 <script lang="ts">
+	import type { Icon} from "lucide-svelte";
+
   // ✅ Props
-  export let text: string;
+  export let text: string | Icon = '';
   export let type: "button" | "submit" | "reset" = "button";
   export let onClick: (() => void) = () => {};
   export let personalClass: string = "";
@@ -15,4 +17,5 @@
   class={`${baseClass} ${personalClass}`}
 >
   {text}
+  <slot/>
 </button>
