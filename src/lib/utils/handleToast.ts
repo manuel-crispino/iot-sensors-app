@@ -4,7 +4,7 @@ import { authStore } from "$stores/authStore";
 import { notificationMessage } from "$stores/notificationStore";
 import { toast } from "@zerodevx/svelte-toast";
 
-// Funzione async perché dobbiamo aspettare la posizione
+// Funcion async para la espera de la Posicion 
 export async function handleToast(updatedSensor: Sensor, action: string): Promise<void> {
     let username: string | undefined;
 
@@ -17,7 +17,7 @@ export async function handleToast(updatedSensor: Sensor, action: string): Promis
     const now = new Date();
     const date = now.toLocaleString();
 
-    // Otteniamo la posizione tramite Promise
+    // Tenemos la Posicion tramite Promise
     let positionText = 'No disponible';
     try {
         const position = await new Promise<GeolocationPosition>((resolve, reject) => {

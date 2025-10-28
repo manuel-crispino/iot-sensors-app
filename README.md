@@ -12,13 +12,17 @@ Aplicación demo para la gestión y visualización de sensores IoT.
 <br/>
 <a href='#window-start'>Ejecución rápida Window</a>
 <br/>
-<a href='#estructura-del-proyecto'>Estructura del proyecto</a>
-<br/>
-<a href='#npm-packages'>Paquetes NPM utilizados</a>
-<br/>
 <a href='#credenciales-de-prueba'>Credenciales de prueba Login</a>
 <br/>
 <a href='#tests'>Tests</a>
+<br/>
+<a href='#npm-packages'>Paquetes NPM utilizados</a>
+<br/>
+<a href='#estructura-del-proyecto'>Estructura del proyecto</a>
+<br/>
+<a href='#data-flow-clean--flux'>Data Flow (clean-flux)</a>
+<br/>
+<a href='#diagrama-explicativo-de-la-solución-propuesta'>Diagrama explicativo de la solución propuesta</a>
 <br/>
 
 
@@ -129,6 +133,47 @@ username: admin
 password: password
 
 
+## Tests 
+
+### Run tests
+    Requisitos adicionales (solo para ejecutar los tests del navegador)
+    Asegúrate de tener instaladas las siguientes dependencias:
+
+    ```bash
+    npm install --save-dev playwright
+    
+    # Consejo: instala solo Chromium para que los tests sean más rápidos: 
+
+    npx playwright install chromium 
+
+    # ------------- Ejecutar los tests -------------------
+
+    cd iot-sensors-app
+    npm run test
+
+    ```
+
+### Test Pattern AAA 
+  Los tests siguen el patrón AAA (Arrange, Act, Assert):
+
+  Arrange:
+    - Preparamos todo lo necesario para el test
+
+  Act:
+    - Ejecutamos la acción que queremos probar
+
+  Assert:
+    - Verificamos que el resultado sea el esperado
+
+## npm packages 
+
+- nats.ws   // socket 
+- uuid      // Universally Unique Identifier
+- lucide-svelte // icons 
+- @zerodevx/svelte-toast // notifications
+
+
+
 ## Estructura del proyecto
 ```bash
 src/
@@ -199,45 +244,6 @@ src/
 │           ├── sensors.test.ts
 │
 ```
-## Tests 
-
-### Run tests
-    Requisitos adicionales (solo para ejecutar los tests del navegador)
-    Asegúrate de tener instaladas las siguientes dependencias:
-
-    ```bash
-    npm install --save-dev playwright
-    
-    # Consejo: instala solo Chromium para que los tests sean más rápidos: 
-
-    npx playwright install chromium 
-
-    # ------------- Ejecutar los tests -------------------
-
-    cd iot-sensors-app
-    npm run test
-
-    ```
-
-### Test Pattern AAA 
-  Los tests siguen el patrón AAA (Arrange, Act, Assert):
-
-  Arrange:
-    - Preparamos todo lo necesario para el test
-
-  Act:
-    - Ejecutamos la acción que queremos probar
-
-  Assert:
-    - Verificamos que el resultado sea el esperado
-
-## npm packages 
-
-- nats.ws   // socket 
-- uuid      // Universally Unique Identifier
-- lucide-svelte // icons 
-- @zerodevx/svelte-toast // notifications
-
 
 ## Data Flow (Clean + Flux)
 
@@ -262,3 +268,16 @@ Esto garantiza una separación clara entre capas y facilita la escalabilidad.
 <br/>
 🔁 Retorno al Store → Actualización reactiva de la UI
 <br/>
+
+## Diagrama explicativo de la solución propuesta
+
+```mermaid 
+flowchart LR
+    Browser -->|HTTP / fetch| FE[SvelteKit Frontend]
+    FE -->|HTTP / REST API| BE[Backend Node.js / Mock DB]
+    FE -->|Suscripción / Publicación| NATS[NATS Server]
+    NATS -->|Mensajes en tiempo real| FE
+    BE -->|Actualiza datos| Store[Svelte Store]
+    Store -->|Reactividad UI| FE
+
+```

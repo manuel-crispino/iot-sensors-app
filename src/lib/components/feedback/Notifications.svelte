@@ -40,6 +40,7 @@
       >
         Elimina notificaciones
       </Button>
+
       <ul class="mt-4">
         {#if $notificationMessage.length < 1}
           <li>No tienes notificaciones aún</li>
