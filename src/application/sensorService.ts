@@ -4,7 +4,7 @@ import { publishSensorUpdate } from './natsService';
 const API_URL = import.meta.env.VITE_API_URL;
 const TOKEN = import.meta.env.VITE_API_TOKEN;
 
-// 🔹 Fetch all sensores
+// Get sensores
 export async function getSensores(): Promise<Sensor[]> {
   const res = await fetch(`${API_URL}/sensores`, {
     method: "POST",
@@ -16,7 +16,7 @@ export async function getSensores(): Promise<Sensor[]> {
   return await res.json();
 }
 
-// 🔹 Create or Update sensor
+// Create or Update sensor
 export async function saveSensor(sensor: Sensor): Promise<Sensor[]> {
   try {
     let res;
@@ -41,7 +41,7 @@ export async function saveSensor(sensor: Sensor): Promise<Sensor[]> {
 
     const updatedSensor: Sensor = await res.json();
 
-    // 🔔 Pubblica su NATS
+    // 🔔 Publica su NATS
     publishSensorUpdate(updatedSensor);
 
     return await getSensores();
@@ -53,7 +53,7 @@ export async function saveSensor(sensor: Sensor): Promise<Sensor[]> {
 }
 
 
-// 🔴 Delete sensor
+//  Delete sensor
 export async function deleteSensor(id: number): Promise<Sensor[]> {
   try {
     const res = await fetch(`${API_URL}/sensores/${id}`, {
@@ -66,7 +66,7 @@ export async function deleteSensor(id: number): Promise<Sensor[]> {
 
     const deleted = await res.json();
 
-    // 👇 Pubblica evento di eliminazione
+    // 👇 Pubblica Evento de eliminacion
     publishSensorUpdate({ ...deleted, action: "delete" });
     
     return await getSensores();

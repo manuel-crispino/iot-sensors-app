@@ -55,7 +55,7 @@ app.post('/sensores/update', async (req, res) => {
 
     if (!sensor) return res.status(400).json({ error: "Missing sensor data" });
 
-    // Genera nuovo id
+    // generate new id
     const newSensor = {
       id: sensores.length ? Math.max(...sensores.map(s => s.id)) + 1 : 1,
       nombre: sensor.nombre,
@@ -88,7 +88,7 @@ app.put('/sensores/:id', async (req, res) => {
     const { sensor } = req.body; 
     if (!sensor) return res.status(400).json({ error: "Missing sensor data" });
 
-    // Aggiorna solo i campi necessari
+   //update only necessary  
     sensores[index] = {
       ...sensores[index],
       nombre: sensor.nombre,

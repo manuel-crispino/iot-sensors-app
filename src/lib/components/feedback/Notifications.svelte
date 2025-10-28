@@ -30,14 +30,22 @@
       Cerrar <CircleX />
     </Button>
     
-    <div class="bg-gray-800 text-white p-6 rounded-xl shadow-lg max-h-full w-full max-w-lg overflow-y-auto relative">
+    <div 
+      class="bg-gray-800 text-white p-6 rounded-xl shadow-lg max-h-full w-full max-w-lg overflow-y-auto relative"
+    >
       <!-- Lista de notificaciones -->
-       <Button personalClass={"bg-white !text-black hover:bg-red-300"} onClick={()=>{notificationMessage.set([]),showModal = false}}>Elimina notificaciones</Button>
+      <Button 
+        personalClass={"bg-white !text-black hover:bg-red-300"} 
+        onClick={()=>{notificationMessage.set([]),showModal = false}}
+      >
+        Elimina notificaciones
+      </Button>
       <ul class="mt-4">
         {#if $notificationMessage.length < 1}
           <li>No tienes notificaciones aún</li>
         {/if}
         {#each $notificationMessage as msg (msg)}
+            <!--Readability each ; una Linea -->
             {#each msg.split(';').filter(line => line.trim() !== '') as line}
               <div>{line}</div>
             {/each}

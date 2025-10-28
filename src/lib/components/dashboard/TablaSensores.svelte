@@ -21,10 +21,18 @@
   <tbody>
     {#each sensores as sensor (sensor.id)}
       <tr class="hover:bg-gray-300 dark:hover:bg-gray-700 transition">
-        <td class="border px-4 py-2">{sensor.id}</td>
-        <td class="border px-4 py-2">{sensor.nombre}</td>
-        <td class="border px-4 py-2">{sensor.tipo}</td>
-        <td class="border px-4 py-2 text-center">{sensor.valor}</td>
+        <td class="border px-4 py-2">
+          {sensor.id}
+        </td>
+        <td class="border px-4 py-2">
+          {sensor.nombre}
+        </td>
+        <td class="border px-4 py-2">
+          {sensor.tipo}
+        </td>
+        <td class="border px-4 py-2 text-center">
+          {sensor.valor}
+        </td>
         <td class="border px-4 py-2 text-center">
           {#if sensor.estado}
             <span class="text-green-500 font-semibold">Activo</span>

@@ -38,7 +38,7 @@
       {/if}
     </button>
 </div>
- {/if}
+{/if}
 {#if !password}
  <input 
     name={placeholder}

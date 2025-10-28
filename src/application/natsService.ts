@@ -3,6 +3,8 @@
 import {connect, StringCodec} from "nats.ws";
 import type {NatsConnection}
 from "nats.ws";
+
+// funcion para notificar mensajes instantaneos en la UI
 import { handleToast } from "$lib/utils/handleToast"; 
 
 // Importamos nuestro store de sensores, que es un store Svelte para mantener la

@@ -3,28 +3,23 @@
   import { goto } from '$app/navigation';
   import { authStore } from '$stores/authStore';
   import { sensores,filtro,filtroNombre,filtroId,filtroValor,filtroTipo,filtroEstado,sensoresFiltrados,ordenAscendente,criterioOrden} from '$stores/sensorsStore';
-  import Container from '$lib/components/layout/Container.svelte';
-  import Input from '$lib/components/common/Input.svelte';
   import { getSensores, saveSensor, deleteSensor } from '$application/sensorService';
-  import Loading from '$lib/components/feedback/Loading.svelte';
-  import FilterSelect from '$lib/components/dashboard/FilterSelect.svelte';
-  import TablaSensores from '$lib/components/dashboard/TablaSensores.svelte';
-  import Button from '$lib/components/common/Button.svelte';
-  import SensorForm from '$lib/components/dashboard/SensorForm.svelte';
+  import { Loading,FilterSelect,TablaSensores,Button,SensorForm,Input,Container } from '$lib/components';
   import { initNATS } from "$application/natsService";
   // type
   import type { Sensor } from '$domain/sensor';
 	import SvelteToast from '$lib/components/feedback/SvelteToast.svelte';
+  //icons
 	import { CircleX } from 'lucide-svelte';
 
   let loaded: boolean = false;
   let error: string | null = null;
 
-  // Stati per modal e editing
+  // Estados para modal y editing
   let showModal: boolean = false;
   let editingSensor: Sensor | null = null;
 
-  // 🔹 Carica sensori al mount
+  // Cargar sensores al mount
   onMount(async () => {
     authStore.subscribe(state => {
       if (!state.user) goto('/login');
@@ -52,7 +47,7 @@
     }
   });
 
-  // 🔁 Genera valori unici per filtri
+  // Generar valores unicos
   $: tiposUnicos = [...new Set($sensores.map(s => s.tipo))];
   $: nombresUnicos = [...new Set($sensores.map(s => s.nombre))];
   $: idUnica = [...new Set($sensores.map(s => s.id))];
