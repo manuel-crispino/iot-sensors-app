@@ -191,18 +191,32 @@ src/
 │  └── themeStore.ts           # Estado de tema 
 │
 └── test/                     # test 
-│  └── browser/*            # browser tests UI
-│  └── server/*             # Server tests Nats
+│       ├── browser/           # Tests end-to-end con Playwright
+│       │   ├── login.spec.ts
+│       │   ├── dashboard.spec.ts
+│       │
+│       └── server/            # Tests de API o NATS
+│           ├── sensors.test.ts
 │
 ```
 ## Tests 
 
 ### Run tests
-   Antes de ejecutar los tests, asegúrate de haber instalado las dependencias y de tener NATS activo:
+    Requisitos adicionales (solo para ejecutar los tests del navegador)
+    Asegúrate de tener instaladas las siguientes dependencias:
 
     ```bash
+    npm install --save-dev playwright
+    
+    # Consejo: instala solo Chromium para que los tests sean más rápidos: 
+
+    npx playwright install chromium 
+
+    # ------------- Ejecutar los tests -------------------
+
     cd iot-sensors-app
     npm run test
+
     ```
 
 ### Test Pattern AAA 
